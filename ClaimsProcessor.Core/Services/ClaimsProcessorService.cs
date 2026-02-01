@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClaimsProcessor.Core.Services
+namespace ClaimsProcessor.Core.Services;
+
+public class ClaimsProcessorService
 {
-	public class ClaimsProcessorService
-	{
-	}
 }

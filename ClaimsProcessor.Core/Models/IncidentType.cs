@@ -1,6 +1,9 @@
-﻿namespace ClaimsProcessor.Core.Models
+﻿namespace ClaimsProcessor.Core.Models;
+
+public enum IncidentType
 {
-	public class IncidentType
-	{
-	}
+	Accident,
+	Theft,
+	Fire,
+	WaterDamage
 }

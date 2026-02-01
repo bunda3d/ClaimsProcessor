@@ -1,6 +1,9 @@
-﻿namespace ClaimsProcessor.Core.Models
+﻿namespace ClaimsProcessor.Core.Models;
+
+public enum ReasonCode
 {
-	public class ReasonCode
-	{
-	}
+	APPROVED,
+	POLICY_INACTIVE,
+	NOT_COVERED,
+	ZERO_PAYOUT
 }
