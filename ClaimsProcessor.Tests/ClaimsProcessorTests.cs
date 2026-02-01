@@ -116,4 +116,35 @@ public class ClaimsProcessorTests
 		Assert.Equal(0, result.Payout);
 		Assert.Equal(ReasonCode.PolicyInactive, result.ReasonCode);
 	}
+
+	// Business Rule #2 incidentType must be included in policy’s coveredIncidents
+	[Fact]
+	public void Evaluate_ReturnsZeroPayout_WhenIncidentTypeNotCoveredByPolicy()
+	{
+		// Given
+		var policy = new Policy(
+			"POL123",
+			new DateOnly(2023, 1, 1),
+			new DateOnly(2024, 1, 1),
+			500,
+			10000,
+			[IncidentType.Accident, IncidentType.Fire] // Theft not covered
+		);
+
+		var claim = new Claim(
+			"POL123",
+			IncidentType.Theft,
+			new DateOnly(2023, 5, 16),
+			3000m
+		);
+
+		// When
+		var processor = new ClaimsProcessorService();
+		var result = processor.EvaluateClaim(policy, claim);
+
+		// Then
+		Assert.False(result.IsApproved);
+		Assert.Equal(0, result.Payout);
+		Assert.Equal(ReasonCode.NotCovered, result.ReasonCode);
+	}
 }
