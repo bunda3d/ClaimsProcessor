@@ -209,4 +209,35 @@ public class ClaimsProcessorTests
 		Assert.Equal(0, result.Payout);
 		Assert.Equal(ReasonCode.ZeroPayout, result.ReasonCode);
 	}
+
+	// Business Rule #5 The payout may not exceed the coverageLimit
+	[Fact]
+	public void Evaluate_ReturnsCappedPayout_WhenPayoutExceedsCoverageLimit()
+	{
+		// Given
+		var policy = new Policy(
+			"POL123",
+			new DateOnly(2023, 1, 1),
+			new DateOnly(2024, 1, 1),
+			500,    // Deductible
+			10000,  // Coverage Limit
+			[IncidentType.Accident, IncidentType.Fire]
+		);
+
+		var claim = new Claim(
+			"POL123",
+			IncidentType.Fire,
+			new DateOnly(2023, 5, 16),
+			25000m  // Amount Claimed exceeds coverage limit after deductible
+		);
+
+		// When
+		var processor = new ClaimsProcessorService();
+		var result = processor.EvaluateClaim(policy, claim);
+
+		// Then
+		Assert.True(result.IsApproved);
+		Assert.Equal(10000m, result.Payout);
+		Assert.Equal(ReasonCode.Approved, result.ReasonCode);
+	}
 }

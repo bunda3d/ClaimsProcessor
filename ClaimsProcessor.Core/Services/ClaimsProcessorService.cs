@@ -27,6 +27,13 @@ public class ClaimsProcessorService
 			return new ClaimResult(false, 0m, ReasonCode.ZeroPayout);
 		}
 
+		// Business Rule #5: Payout cannot exceed policy's coverage limit
+		if (payout > policy.CoverageLimit)
+		{
+			payout = policy.CoverageLimit;
+		}
+
+		// If all business rules are satisfied, approve the claim
 		return new ClaimResult(true, payout, ReasonCode.Approved);
 	}
 }
