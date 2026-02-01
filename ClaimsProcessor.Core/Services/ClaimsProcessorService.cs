@@ -18,7 +18,9 @@ public class ClaimsProcessorService
 			return new ClaimResult(false, 0m, ReasonCode.NotCovered);
 		}
 
-		// Happy path: approve all claims that pass the first rule
-		return new ClaimResult(true, 10000m, ReasonCode.Approved);
+		// Business Rule #3: Payout = amountClaimed - deductible
+		decimal payout = claim.AmountClaimed - policy.Deductible;
+
+		return new ClaimResult(true, payout, ReasonCode.Approved);
 	}
 }
