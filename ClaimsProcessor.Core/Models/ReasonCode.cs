@@ -1,9 +1,9 @@
 ﻿namespace ClaimsProcessor.Core.Models;
 
-public enum ReasonCode
+public static class ReasonCode
 {
-	APPROVED,
-	POLICY_INACTIVE,
-	NOT_COVERED,
-	ZERO_PAYOUT
+	public const string Approved = "APPROVED";
+	public const string PolicyInactive = "POLICY_INACTIVE";
+	public const string NotCovered = "NOT_COVERED";
+	public const string ZeroPayout = "ZERO_PAYOUT";
 }

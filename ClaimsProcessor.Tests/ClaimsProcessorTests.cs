@@ -1,4 +1,7 @@
-﻿namespace ClaimsProcessor.Tests;
+﻿using ClaimsProcessor.Core.Models;
+using ClaimsProcessor.Core.Services;
+
+namespace ClaimsProcessor.Tests;
 
 public class ClaimsProcessorTests
 {
@@ -83,8 +86,34 @@ public class ClaimsProcessorTests
 
 	#endregion [ Kata ReadMe ]
 
+	// Business Rules	#1 Policy must be active on incidentDate
 	[Fact]
-	public void Test1()
+	public void Evaluate_ReturnsZeroPayout_WhenPolicyInactiveOnIncidentDate()
 	{
+		// Given
+		var policy = new Policy(
+			"POL123",
+			new DateOnly(2023, 1, 1), // Start Date
+			new DateOnly(2024, 1, 1), // End Date
+			500,
+			10000,
+			[IncidentType.Accident, IncidentType.Fire]
+		);
+
+		var claim = new Claim(
+			"POL123",
+			IncidentType.Theft,
+			new DateOnly(2025, 6, 15), // Incident date outside policy period
+			3000m
+		);
+
+		// When
+		var processor = new ClaimsProcessorService();
+		var result = processor.EvaluateClaim(policy, claim);
+
+		// Then
+		Assert.False(result.IsApproved);
+		Assert.Equal(0, result.Payout);
+		Assert.Equal(ReasonCode.PolicyInactive, result.ReasonCode);
 	}
 }
