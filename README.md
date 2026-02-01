@@ -34,7 +34,8 @@ To run all tests and see a localized summary:
 dotnet test
 ```
 ### 🖥️ Console Output
-This is what you should see when running the application:
+This is what you should see when running the application: 
+
 ![Console Application Demo](assets/console-demo.png)
 
 ---
