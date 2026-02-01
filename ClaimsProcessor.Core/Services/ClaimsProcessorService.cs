@@ -21,6 +21,12 @@ public class ClaimsProcessorService
 		// Business Rule #3: Payout = amountClaimed - deductible
 		decimal payout = claim.AmountClaimed - policy.Deductible;
 
+		// Business Rule #4: If payout <= 0, payout = 0 and reason code = "ZERO_PAYOUT"
+		if (payout <= 0m)
+		{
+			return new ClaimResult(false, 0m, ReasonCode.ZeroPayout);
+		}
+
 		return new ClaimResult(true, payout, ReasonCode.Approved);
 	}
 }

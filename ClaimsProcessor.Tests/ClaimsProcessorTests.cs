@@ -178,4 +178,35 @@ public class ClaimsProcessorTests
 		Assert.Equal(2500m, result.Payout);
 		Assert.Equal(ReasonCode.Approved, result.ReasonCode);
 	}
+
+	// Business Rule #4 If payout is zero or negative, return 0 with reasonCode: ZERO_PAYOUT
+	[Fact]
+	public void Evaluate_ReturnsZeroPayoutAndReasonCode_WhenPayoutIsZeroOrNegative()
+	{
+		// Given
+		var policy = new Policy(
+			"POL123",
+			new DateOnly(2023, 1, 1),
+			new DateOnly(2024, 1, 1),
+			500,  // Deductible
+			10000,
+			[IncidentType.Accident, IncidentType.Fire]
+		);
+
+		var claim = new Claim(
+			"POL123",
+			IncidentType.Fire,
+			new DateOnly(2023, 5, 16),
+			250m  // Amount Claimed minus deductible results in negative payout
+		);
+
+		// When
+		var processor = new ClaimsProcessorService();
+		var result = processor.EvaluateClaim(policy, claim);
+
+		// Then
+		Assert.False(result.IsApproved);
+		Assert.Equal(0, result.Payout);
+		Assert.Equal(ReasonCode.ZeroPayout, result.ReasonCode);
+	}
 }
