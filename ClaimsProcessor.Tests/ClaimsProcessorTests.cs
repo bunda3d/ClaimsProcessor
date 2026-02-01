@@ -86,7 +86,7 @@ public class ClaimsProcessorTests
 
 	#endregion [ Kata ReadMe ]
 
-	// Business Rules	#1 Policy must be active on incidentDate
+	// Business Rule #1 Policy must be active on incidentDate
 	[Fact]
 	public void Evaluate_ReturnsZeroPayout_WhenPolicyInactiveOnIncidentDate()
 	{
@@ -102,7 +102,7 @@ public class ClaimsProcessorTests
 
 		var claim = new Claim(
 			"POL123",
-			IncidentType.Theft,
+			IncidentType.Accident,
 			new DateOnly(2025, 6, 15), // Incident date outside policy period
 			3000m
 		);
