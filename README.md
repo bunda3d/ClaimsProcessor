@@ -64,7 +64,7 @@ Instead of throwing exceptions for business failures (like "Policy Inactive"), I
 
 ## 🔮 Future Improvements
 With more time, I would implement:
-- **Repository Pattern**: Abstract and data operations (CRUD) to load Policies/Claims from a real database and record outcomes. 
+- **Repository Pattern**: Abstract data operations (CRUD) to load Policies/Claims from a real database and record outcomes. 
   - Moving CRUD ops out of functions decouples the data access layer, allowing better separation of concerns and easier testing/mocking.
   - It also makes migrating to other DB types or Object-Relational Mappers practically possible.
 - **Web API**: Expose claim evaluation services via RESTful API.
