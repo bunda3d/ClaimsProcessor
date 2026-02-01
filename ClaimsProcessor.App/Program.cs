@@ -48,10 +48,10 @@ foreach (var scenario in scenarios)
 	Console.WriteLine($"Result:   {result.ReasonCode}");
 	Console.ResetColor();
 
-	if (result.IsApproved)
-	{
-		Console.WriteLine($"Payout:   {result.Payout:C2}");
-	}
+	//if (result.IsApproved)
+	//{
+	Console.WriteLine($"Payout:   {result.Payout:C2}");
+	//}
 	Console.WriteLine("__________________________________________");
 }
 
